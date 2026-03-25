@@ -10,17 +10,17 @@ Comparación de algoritmos eficientes vs. ineficientes para conteo de ocurrencia
 Programacion-avanzada-Lab1/
 ├── README.md
 ├── docs/
-│   └── complexity_analysis.md       ← Análisis de complejidad temporal
-└── lab1/                            ← Proyecto Maven
+│   └── Breve informe del programa 
+└── lab1/                           
     ├── pom.xml
     └── src/
         ├── main/java/com/example/
-        │   ├── OccurrenceCounter.java   ← Conteo de ocurrencias (O(N²) y O(N))
-        │   ├── StringConcatenator.java  ← Construcción de strings (O(N²) y O(N))
+        │   ├── OccurrenceCounter.java  
+        │   ├── StringConcatenator.java  
         │   └── benchmarks/
         │       ├── OccurrenceBenchmark.java
         │       ├── StringBenchmark.java
-        │       └── BenchmarkRunner.java ← Punto de entrada de benchmarks
+        │       └── BenchmarkRunner.java 
         └── test/java/com/example/
             ├── OccurrenceCounterTest.java
             └── StringConcatenatorTest.java

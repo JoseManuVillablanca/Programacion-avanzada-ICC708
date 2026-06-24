@@ -1,0 +1,11 @@
+Origen,Destino,Costo
+A,B,4
+A,C,2
+B,C,5
+B,D,10
+C,E,3
+E,D,4
+E,F,6
+D,F,11
+D,G,7
+F,G,2

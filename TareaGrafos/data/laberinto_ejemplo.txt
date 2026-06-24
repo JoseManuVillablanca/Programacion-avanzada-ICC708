@@ -1,0 +1,14 @@
+# Laberinto de ejemplo — 10x10
+# 0 = celda libre | 1 = muro/barrera
+# Inicio sugerido: (0,0) | Objetivo sugerido: (9,9)
+
+0 0 1 0 0 0 0 0 0 0
+0 1 1 0 1 1 1 1 0 0
+0 0 0 0 0 0 1 0 0 0
+1 1 1 0 1 0 1 0 1 1
+0 0 1 0 1 0 0 0 1 0
+0 0 1 0 0 0 1 0 1 0
+0 1 1 1 1 0 0 0 0 0
+0 0 0 0 1 0 1 1 1 0
+1 1 1 0 1 0 0 0 1 0
+0 0 0 0 0 0 1 0 0 0

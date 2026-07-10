@@ -1,0 +1,13 @@
+center_id,nombre,ubicacion,tipo,disponible
+CEN-01,Centro Médico Norte,Nodo_Este_Rural,Hospital,True
+CEN-02,Cuartel Bomberos Sur,Nodo_Oeste_Universitaria,Bomberos,True
+CEN-03,Comisaría Central,Nodo_Periferia_Rural,Policia,True
+CEN-04,Hospital Universitario,Nodo_Sur_Universitaria_2,Rescate_Civil,True
+CEN-05,Unidad SAMU Este,Nodo_Centro_Universitaria_2,SAMU,True
+CEN-06,Cuartel Rescate Oeste,Nodo_Suroeste_Universitaria,Hospital,True
+CEN-07,Hospital Periferia,Nodo_Norte_Rural_2,Bomberos,True
+CEN-08,Comisaría Sur,Nodo_Periferia_Hospitalaria,Policia,True
+CEN-09,Hospital Emergencia Central,Nodo_Noreste_Hospitalaria,Rescate_Civil,True
+CEN-10,Cuartel Norte,Nodo_Este_Hospitalaria_2,SAMU,True
+CEN-11,Unidad SAMU Oeste,Nodo_Sur_Industrial_2,Hospital,True
+CEN-12,Centro de Crisis,Nodo_Este_Residencial,Bomberos,True

@@ -1,0 +1,99 @@
+# Documentación de Clases y Estructuras de Datos (ADTs)
+
+Este archivo contiene la especificación y los comentarios detallados de las distintas clases personalizadas
+implementadas en el proyecto para resolver el problema de optimización de rutas de emergencia sin utilizar librerías externas.
+
+---
+
+## 1. Clase HashTable (`hash_table.py`)
+Implementación de una Tabla Hash propia que utiliza encadenamiento (Chaining) para la resolución de colisiones.
+* **Logica de almacenamiento**: No utiliza el tipo `dict` nativo de Python para el almacenamiento de buckets. En su lugar, utiliza listas de listas de tuplas `(clave, valor)` indexadas mediante una función hash.
+* **Complejidad**: Operaciones de inserción, búsqueda, actualización y eliminación en tiempo promedio constante O(1).
+* **Redimensionamiento**: Rediseño y expansión automática (rehashing) cuando el factor de carga supera el límite de `0.75`.
+
+### Atributos Clave:
+* `_buckets` (list): Matriz de buckets para encadenamiento.
+* `_size` (int): Tamaño actual de la tabla (número de buckets).
+* `_count` (int): Cantidad de elementos almacenados actualmente.
+* `_total_collisions` (int): Contador acumulado de colisiones.
+* `_rehash_count` (int): Contador de rehashes ejecutados.
+
+### Métodos Principales:
+* `_hash(key: str) -> int`: Función hash polinomial con base prima 31 y aritmética modular incremental.
+* `insert(key: str, value: any) -> None`: Inserta un elemento en la tabla. Si la clave existe, actualiza su valor. Realiza expansión automática si el factor de carga supera `0.75`.
+* `search(key: str) -> any`: Busca y retorna el valor asociado a la clave. Retorna `None` si la clave no existe.
+* `delete(key: str) -> bool`: Elimina un elemento de la tabla. Retorna `True` si fue eliminado y `False` si no se encontró.
+* `print_metrics() -> None`: Imprime las estadísticas de rendimiento de la tabla.
+
+---
+
+## 2. Clase MaxHeap (`priority_queue.py`)
+Estructura de árbol binario de prioridad máxima implementada sobre una lista de Python para la gestión eficiente de la cola de prioridad.
+* **Propiedad de Heap**: El elemento de mayor prioridad (`Incident.prioridad`) siempre se mantiene en la raíz.
+* **Optimización de Posiciones**: Para soportar la actualización de prioridades eficientemente, mantiene un índice de posiciones interno en tiempo logarítmico.
+
+### Atributos Clave:
+* `_heap` (list): Lista donde se almacena el árbol en representación lineal.
+* `_pos_index` (list): Lista de tuplas `(incident_id, index_en_heap)` para ubicar incidentes en tiempo rápido.
+
+### Métodos Principales:
+* `insert(incident: Incident) -> None`: Inserta un nuevo incidente en el heap manteniendo la propiedad de árbol de prioridad en O(log n).
+* `extract_max() -> Incident`: Extrae y retorna el elemento de mayor prioridad (raíz) reordenando el árbol en O(log n).
+* `peek_max() -> Incident`: Retorna el elemento en la raíz sin extraerlo (O(1)).
+* `update_priority(incident_id: str, new_priority: float) -> None`: Modifica la prioridad de un incidente específico en el heap y realiza flotación o hundimiento según corresponda en O(log n).
+* `build_from_list(lst: list) -> None`: Reconstruye todo el heap a partir de una lista desordenada en tiempo lineal O(n) usando el algoritmo de Floyd.
+
+---
+
+## 3. Clase Incident (`models.py`)
+Representa una solicitud de emergencia reportada en el sistema.
+
+### Atributos:
+* `incident_id` (str): Identificador único (ej: `'INC-0001'`).
+* `tipo` (str): Tipo de incidente (e.g., `'Explosion'`, `'Incendio'`, `'Emergencia_Medica'`).
+* `ubicacion` (str): Nombre del nodo de la red vial donde ocurre.
+* `severidad` (int): Nivel del 1 al 10.
+* `timestamp` (float): Marca de tiempo Unix de reporte.
+* `estado` (str): Estado del incidente (`'reportado'`, `'en_atencion'`, o `'resuelto'`).
+* `prioridad` (float): Prioridad acumulada calculada del incidente.
+
+### Métodos Principales:
+* `_calcular_prioridad() -> float`: Calcula la prioridad según la fórmula:prioridad = severidad * peso_tipo * factor_tiempo
+  *El factor tiempo crece dinámicamente cada minuto transcurrido para dar urgencia a solicitudes antiguas.*
+* `actualizar_prioridad() -> None`: Actualiza el campo de prioridad en base al tiempo actual del reloj del sistema.
+* `cambiar_estado(nuevo_estado: str) -> None`: Cambia el estado y valida que sea compatible.
+* `__lt__(other)` / `__gt__(other)`: Operadores de comparación lógica basados en el campo prioridad para su ordenamiento en el Heap y algoritmos de Sorting.
+
+---
+
+## 4. Clase EmergencyCenter (`models.py`)
+Representa una unidad de respuesta física (hospital, bomberos, etc.) encargada de atender las solicitudes de emergencia.
+
+### Atributos:
+* `center_id` (str): Identificador único del centro (ej. `'CEN-01'`).
+* `nombre` (str): Nombre del centro.
+* `ubicacion` (str): Nodo físico de la red vial donde se localiza.
+* `tipo` (str): Tipo de centro (e.g. `'Hospital'`, `'Bomberos'`).
+* `disponible` (bool): Estado de disponibilidad de despacho.
+* `incidentes_atendidos` (int): Contador de incidentes asignados históricamente.
+
+### Métodos Principales:
+* `asignar() -> None`: Ocupa el centro y aumenta el contador de incidentes atendidos.
+* `liberar() -> None`: Restablece el estado de disponibilidad del centro.
+
+---
+
+## 5. Clase RoadNetwork (`models.py`)
+Grafo ponderado para modelar el mapa de la ciudad y la red vial.
+* **Estructura**: Lista de adyacencia manual utilizando listas de Python (`list`).
+* **Nodos y Aristas**: Los nodos son identificadores de texto (`str`). Las aristas son ponderadas por un valor numérico (`float`) que representa el tiempo de viaje en minutos.
+
+### Atributos Clave:
+* `_nodes` (list): Lista con los nombres de todos los nodos.
+* `_adj` (list): Lista de adyacencia paralela que mapea los índices a tuplas `(idx_vecino, peso)`.
+
+### Métodos Principales:
+* `add_node(name: str) -> None`: Agrega un nuevo nodo al grafo, ignorando duplicados.
+* `add_edge(u: str, v: str, weight: float) -> None`: Añade una calle de peso `weight` entre los nodos `u` y `v`. Si los nodos no existen, se agregan de manera automática.
+* `get_neighbors(name: str) -> list`: Retorna una lista de tuplas `(nombre_vecino, peso)` de los nodos adyacentes.
+* `node_exists(name: str) -> bool`: Retorna si un nodo existe por su nombre.
